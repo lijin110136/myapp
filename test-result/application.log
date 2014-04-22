@@ -1,0 +1,4 @@
+19 三月 2014 15:35:51,207 INFO  ~ Starting D:\playTest\myapp\.
+19 三月 2014 15:35:51,593 WARN  ~ You're running Play! in DEV mode
+19 三月 2014 15:35:52,606 INFO  ~ Connected to jdbc:h2:mem:play;MODE=MYSQL;LOCK_MODE=0
+19 三月 2014 15:35:52,616 INFO  ~ Application 'myapp' is now started !
