@@ -1,12 +1,14 @@
 package controllers;
 
-import play.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import play.data.validation.Required;
-import play.mvc.*;
-
-import java.util.*;
-
-import models.*;
+import play.mvc.Controller;
 
 public class Application extends Controller {
 
@@ -24,6 +26,27 @@ public class Application extends Controller {
     		index();
     	}
     	render(myName);
+    }
+    
+    public static void proxy(String urlStr){
+    	try {
+			URL url  = new URL(urlStr);
+			InputStream ins = url.openStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(ins));
+			String strLine = "";
+			StringBuffer sb = new StringBuffer();
+			while((strLine = br.readLine()) != null){
+				sb.append(strLine + "\r\n");
+			}
+			renderText(sb.toString());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     }
 
 }
