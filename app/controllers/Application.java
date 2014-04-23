@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import play.data.validation.Required;
+import play.libs.Files;
 import play.mvc.Controller;
 
 public class Application extends Controller {
@@ -51,6 +52,8 @@ public class Application extends Controller {
     }
     
     public static void upload(File uploadFile){
+    	File f = new File("upload/" + uploadFile.getName());
+    	Files.copy(uploadFile, f);
     	renderText(uploadFile.getName());
     }
     
