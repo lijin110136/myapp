@@ -4,11 +4,8 @@
 #{if flash.error}
 	<p>${flash.error}</p>
 #{/if}
-<form action="@{Application.sayHello()}" method="GET">
-    <input type="text" name="myName" /> 
-    <input type="submit" value="Say hello!" />
+<form action="@{Application.upload()}" method="POST" enctype="multipart/form-data">
+    <input type="file" name="uploadFile" /> 
+    <input type="submit" value="上传" />
 </form>
-<form action="@{Application.proxy()}" method="GET">
-    <input type="text" name="urlStr" />
-    <input type="submit" value="Go!" />
-</form>
+
