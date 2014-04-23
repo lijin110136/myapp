@@ -53,4 +53,8 @@ public class Application extends Controller {
     public static void upload(File uploadFile){
     	renderText(uploadFile.getName());
     }
+    
+    public static void list(){
+    	render();
+    }
 }
