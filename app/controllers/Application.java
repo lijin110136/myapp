@@ -7,10 +7,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
 
 import play.data.validation.Required;
 import play.libs.Files;
 import play.mvc.Controller;
+import utils.ConnectionUtils;
 
 public class Application extends Controller {
 
@@ -59,5 +62,19 @@ public class Application extends Controller {
     
     public static void list(){
     	render();
+    }
+    
+    public static void listStudent(){
+    	//Connection conn = ConnectionUtils.getConnection();
+    	ResultSet rs = ConnectionUtils.exeucteQuery("select * from student");
+    	StringBuffer sb = new StringBuffer();
+    	try {
+    		while(rs.next()){
+    			sb.append("name:" + rs.getString("sname") + ", age:" + rs.getInt(3) + "\r\n");
+        	}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	renderText(sb.toString());
     }
 }
