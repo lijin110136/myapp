@@ -1,10 +1,7 @@
 #{extends 'main.html' /}
 #{set title:'来坐坐吧' /}
 
-#{if flash.error}
-	<p>${flash.error}</p>
-#{/if}
-<table>
+<table class="table-striped">
 	<thead>
 		<tr>
 			<th>ID</th>
@@ -17,7 +14,7 @@
 		<tr>
 			<td>${student.id}</td>
 			<td>${student.sname}</td>
-			<td>&nbsp;</td>
+			<td>${student.sage}</td>
 		</tr>
 	#{/list}
 	</tbody>
