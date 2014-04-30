@@ -78,6 +78,14 @@
 	<classpathentry kind="lib" path="D:/Program Files/play-1.2.4/play-1.2.4/framework/lib/slf4j-log4j12-1.6.1.jar"/>
 	<classpathentry kind="lib" path="D:/Program Files/play-1.2.4/play-1.2.4/framework/lib/snakeyaml-1.7.jar"/>
 	<classpathentry kind="lib" path="D:/Program Files/play-1.2.4/play-1.2.4/framework/lib/xstream-1.3.jar"/>
-	<classpathentry kind="lib" path="lib/sqlite-jdbc4-3.8.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/asm-3.3.1.jar"/>
+	<classpathentry kind="lib" path="lib/cglib-2.2.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="lib/mybatis-3.0.6.jar" sourcepath="E:/学习资料/mybatis/软件包/mybatis-3.0.6/mybatis-3.0.6/mybatis-3.0.6-sources.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.7.15-SNAPSHOT-2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-configuration-1.8.jar"/>
 	<classpathentry kind="output" path="eclipse/classes"/>
 </classpath>

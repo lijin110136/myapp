@@ -9,11 +9,20 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import models.Student;
+
+import org.apache.ibatis.session.SqlSession;
 
 import play.data.validation.Required;
 import play.libs.Files;
 import play.mvc.Controller;
 import utils.ConnectionUtils;
+import utils.SqlSessionFactoryUtls;
 
 public class Application extends Controller {
 
@@ -66,15 +75,26 @@ public class Application extends Controller {
     
     public static void listStudent(){
     	//Connection conn = ConnectionUtils.getConnection();
-    	ResultSet rs = ConnectionUtils.exeucteQuery("select * from student");
-    	StringBuffer sb = new StringBuffer();
-    	try {
-    		while(rs.next()){
-    			sb.append("name:" + rs.getString("sname") + ", age:" + rs.getInt(3) + "\r\n");
-        	}
-		} catch (Exception e) {
-			e.printStackTrace();
+//    	ResultSet rs = ConnectionUtils.exeucteQuery("select * from student");
+//    	StringBuffer sb = new StringBuffer();
+//    	try {
+//    		while(rs.next()){
+//    			sb.append("name:" + rs.getString("sname") + ", age:" + rs.getInt(3) + "\r\n");
+//        	}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//    	renderText(sb.toString());
+    	
+    	List<Student> studentList = new ArrayList<Student>();
+		SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("id", null);
+			studentList = sqlSession.selectList("models.Student.selectStudent", map);
+		}finally{
+			sqlSession.close();
 		}
-    	renderText(sb.toString());
+		renderJSON(studentList);
     }
 }
