@@ -97,4 +97,23 @@ public class Application extends Controller {
 		}
 		render(studentList);
     }
+    
+    public static void edit(){
+    	render();
+    }
+    
+    public static void doSave(Long id, String sname, Integer sage){
+    	Student student = new Student();
+    	student.setId(id);
+    	student.setSage(sage);
+    	student.setSname(sname);
+    	SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
+    	try {
+    		sqlSession.insert("models.Student.insertStudent", student);
+    		sqlSession.commit();
+		}finally{
+			sqlSession.close();
+		}
+    	renderJSON("{\"message\":\"保存成功！\"}");
+    }
 }

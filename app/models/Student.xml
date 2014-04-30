@@ -11,4 +11,9 @@
 			</if>
 		</where>
 	</select>
+	<insert id="insertStudent" parameterType="models.Student">
+		insert into student(id, sname, age)
+		values 
+			(#{id}, #{sname}, #{sage})
+	</insert>
 </mapper>

@@ -1,0 +1,13 @@
+#{extends 'main.html' /}
+#{set title:'来坐坐吧' /}
+
+#{if flash.error}
+	<p>${flash.error}</p>
+#{/if}
+<form action="@{Application.dosave()}" method="POST">
+	<label>ID:</label><input type="text" name="id" />
+    <label>姓名:</label><input type="text" name="sname" /> 
+    <label>年龄:</label><input type="text" name="sage" />
+    <input type="submit" value="提交"/>
+</form>
+
