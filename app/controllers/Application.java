@@ -95,6 +95,6 @@ public class Application extends Controller {
 		}finally{
 			sqlSession.close();
 		}
-		renderJSON(studentList);
+		render(studentList);
     }
 }

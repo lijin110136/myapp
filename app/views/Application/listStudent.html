@@ -1,0 +1,25 @@
+#{extends 'main.html' /}
+#{set title:'来坐坐吧' /}
+
+#{if flash.error}
+	<p>${flash.error}</p>
+#{/if}
+<table>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>姓名</th>
+			<th>年龄</th>
+		</tr>
+	</thead>
+	<tbody>
+	#{list items:studentList, as : 'student'}
+		<tr>
+			<td>${student.id}</td>
+			<td>${student.sname}</td>
+			<td>&nbsp;</td>
+		</tr>
+	#{/list}
+	</tbody>
+</table>
+
