@@ -120,4 +120,15 @@ public class Application extends Controller {
 	public static void baiduVerify() {
 		redirect("/public/baidu_verify_Ihg2FfaG4m.html");
 	}
+	
+	public static void listUploadFile(){
+		File f = new File("upload/");
+		if(f.exists()){
+			String[] list = f.list();
+			renderJSON(list);
+		}else{
+			renderJSON("{\"message\":\"获取上传文件列表失败！\"}");
+		}
+	}
+	
 }
