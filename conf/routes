@@ -4,7 +4,9 @@
 
 # Home page
 GET     /                                       Application.index
-GET     /hello                                      Application.sayHello
+GET     /hello                                  Application.sayHello
+#Baidu Validate
+GET     /baidu_verify_Ihg2FfaG4m.html            Application.baiduVerify
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

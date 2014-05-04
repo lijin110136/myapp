@@ -116,4 +116,8 @@ public class Application extends Controller {
 		}
     	renderJSON("{\"message\":\"保存成功！\"}");
     }
+
+	public static void baiduVerify() {
+		redirect("/public/baidu_verify_Ihg2FfaG4m.html");
+	}
 }
