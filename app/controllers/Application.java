@@ -125,9 +125,9 @@ public class Application extends Controller {
 		File f = new File("public/mp3/");
 		if(f.exists()){
 			String[] list = f.list();
-			renderJSON(list);
+			render(list,"");
 		}else{
-			renderJSON("{\"message\":\"获取上传文件列表失败！\"}");
+			render();
 		}
 	}
 	

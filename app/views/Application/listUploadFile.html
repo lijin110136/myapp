@@ -1,0 +1,25 @@
+#{extends 'main.html' /}
+#{set title:'来坐坐吧' /}
+<div style="width:80%;margin:0 auto;margin-top:50px" >
+<div><h1 style="color:ccc;text-align:center">查看歌曲列表</h1></div>
+<table class="table-striped"  style="width:100%">
+	<thead>
+		<tr>
+			<th>名称</th>
+			<th>下载地址</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+	#{list items:list, as : 'file'}
+		<tr>
+			<td>${file}</td>
+			<td>http://www.laizuozuoba.com/public/mp3/${file}</td>
+			<td>
+				<button class="btn" onclick="window.location.href='http://www.laizuozuoba.com/public/mp3/${file}'">下载</button>
+			</td>
+		</tr>
+	#{/list}
+	</tbody>
+</table>
+</div>
