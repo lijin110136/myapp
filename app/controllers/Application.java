@@ -122,7 +122,7 @@ public class Application extends Controller {
 	}
 	
 	public static void listUploadFile(){
-		File f = new File("upload/");
+		File f = new File("public/mp3/");
 		if(f.exists()){
 			String[] list = f.list();
 			renderJSON(list);
