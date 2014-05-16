@@ -15,20 +15,19 @@
         #{get 'moreScripts' /}
     </head>
     <body>
-		<div class="container" >
-			<div class="navbar">
-			  <div class="navbar-inner">
-			    <div class="container">
-					<ul class="nav">
-					  <li class="active"><a class="brand" href="@{Application.index()}">首页</a></li>
-					  <li><a href="@{Application.listStudent()}">显示学生信息</a></li>
-					  <li><a href="@{Application.list()}">上传文件</a></li>
-					  <li><a href="@{Application.edit()}">新增学生信息</a></li>
-					  <li><a href="@{Application.listUploadFile()}">查看上传文件列表</a></li>
-					</ul>
-			    </div>
+		<div class="container" >		
+			<nav class="navbar navbar-default navbar-inverse" role="navigation">
+			  <!-- Collect the nav links, forms, and other content for toggling -->
+			  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			    <ul class="nav navbar-nav">
+					<li class="active"><a class="navbar-brand" href="@{Application.index()}">首页</a></li>
+					<li><a href="@{Application.listStudent()}">显示学生信息</a></li>
+					<li><a href="@{Application.list()}">上传文件</a></li>
+					<li><a href="@{Application.edit()}">新增学生信息</a></li>
+					<li><a href="@{Application.listUploadFile()}">查看上传文件列表</a></li>
+			    </ul>
 			  </div>
-			</div>	
+			</nav>
 		</div>
         #{doLayout /}
     </body>
