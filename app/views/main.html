@@ -4,14 +4,32 @@
     <head>
         <title>#{get 'title' /}</title>
         <meta charset="${_response_encoding}">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" media="screen" href="@{'/public/stylesheets/main.css'}">
         <link rel="stylesheet" media="screen" href="@{'/public/bootstrap/css/bootstrap.css'}">
         #{get 'moreStyles' /}
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
-        <script src="@{'/public/javascripts/jquery-1.6.4.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/jquery-1.11.1.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/bootstrap/js/bootstrap.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         #{get 'moreScripts' /}
     </head>
     <body>
+		<div class="container" >
+			<div class="navbar">
+			  <div class="navbar-inner">
+			    <div class="container">
+					<ul class="nav">
+					  <li class="active"><a class="brand" href="@{Application.index()}">首页</a></li>
+					  <li><a href="@{Application.listStudent()}">显示学生信息</a></li>
+					  <li><a href="@{Application.list()}">上传文件</a></li>
+					  <li><a href="@{Application.edit()}">新增学生信息</a></li>
+					  <li><a href="@{Application.listUploadFile()}">查看上传文件列表</a></li>
+					</ul>
+			    </div>
+			  </div>
+			</div>	
+		</div>
         #{doLayout /}
     </body>
 </html>
