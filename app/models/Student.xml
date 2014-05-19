@@ -19,4 +19,14 @@
 	<delete id="deleteStudent" parameterType="long">
 		delete from student where id = #{id}
 	</delete>
+	<update id="updateStudent" parameterType="models.Student">
+		update student 
+		<set>
+			<if test="sname != null">sname=#{sname},</if>
+			<if test="sage != null">sage=#{sage},</if>
+			<if test="email != null">email=#{email},</if>
+			<if test="phoneno != null">phoneno=#{phoneno}</if>
+		</set>
+		where id = #{id}
+	</update>
 </mapper>

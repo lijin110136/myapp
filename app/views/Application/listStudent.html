@@ -32,10 +32,10 @@
 </div>
 <script type="text/javascript">
 function edit(id){
-	window.location.href = "@{Application.edit()}";
+	window.location.href = "@{Application.edit()}?id=" + id;
 }
 function del(id){
-	if(!confirm("确定要 删除吗？")){
+	if(!confirm("确定要删除吗？")){
 		return;
 	}
 	$.get("@{Application.del()}", {"id":id}, function(data){

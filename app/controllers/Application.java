@@ -98,12 +98,26 @@ public class Application extends Controller {
 		render(studentList);
     }
     
-    public static void edit(){
-    	render();
+    public static void edit(Long id){
+    	if(id == null){
+    		render();
+    		return;
+    	}
+    	SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
+    	Student student = new Student();
+		try {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("id", id);
+			student = (Student)sqlSession.selectOne("models.Student.selectStudent", map);
+		}finally{
+			sqlSession.close();
+		}
+    	render(student, "");
     }
     
-    public static void doSave(String sname, Integer sage, String email, String phoneno){
+    public static void doSave(Long id, String sname, Integer sage, String email, String phoneno){
     	Student student = new Student();
+    	student.setId(id);
     	student.setSage(sage);
     	student.setSname(sname);
     	student.setEmail(email);
@@ -111,7 +125,12 @@ public class Application extends Controller {
     	student.setSno("");
     	SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
     	try {
-    		sqlSession.insert("models.Student.insertStudent", student);
+    		if(student.getId() == null){
+    			sqlSession.insert("models.Student.insertStudent", student);
+    		}else{
+    			
+    			sqlSession.update("models.Student.updateStudent", student);
+    		}
     		sqlSession.commit();
 		}finally{
 			sqlSession.close();
