@@ -102,11 +102,13 @@ public class Application extends Controller {
     	render();
     }
     
-    public static void doSave(Long id, String sname, Integer sage){
+    public static void doSave(String sname, Integer sage, String email, String phoneno){
     	Student student = new Student();
-    	student.setId(id);
     	student.setSage(sage);
     	student.setSname(sname);
+    	student.setEmail(email);
+    	student.setPhoneno(phoneno);
+    	student.setSno("");
     	SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
     	try {
     		sqlSession.insert("models.Student.insertStudent", student);
@@ -129,6 +131,17 @@ public class Application extends Controller {
 		}else{
 			render();
 		}
+	}
+	
+	public static void del(Long id){
+		SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
+    	try {
+    		sqlSession.delete("models.Student.deleteStudent", id);
+    		sqlSession.commit();
+		}finally{
+			sqlSession.close();
+		}
+    	renderJSON("{\"message\":\"删除成功！\"}");
 	}
 	
 }

@@ -4,7 +4,7 @@
 			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="models.Student">
 	<select id="selectStudent" parameterType="map" resultType="models.Student">
-		select id, sname, age sage from student
+		select * from student
 		<where>
 			<if test=" id != null">
 				id = #{id}
@@ -12,8 +12,11 @@
 		</where>
 	</select>
 	<insert id="insertStudent" parameterType="models.Student">
-		insert into student(id, sname, age)
+		insert into student(id,sno, sname, sage,email,phoneno)
 		values 
-			(#{id}, #{sname}, #{sage})
+			(#{id},#{sno}, #{sname}, #{sage}, #{email}, #{phoneno})
 	</insert>
+	<delete id="deleteStudent" parameterType="long">
+		delete from student where id = #{id}
+	</delete>
 </mapper>

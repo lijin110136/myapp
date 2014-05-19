@@ -5,11 +5,7 @@
 	<p>${flash.error}</p>
 #{/if}
 <div class="container">
-	<form action="@{Application.dosave()}" method="POST">
-		<div class="form-group">
-			<label class="control-label" for="id">ID:</label>
-			<input class="form-control" type="text" placeholder="请输入ID" name="id" id="id"/>
-		</div>
+	<form action="@{Application.dosave()}" method="POST" id="studentForm">
 		<div class="form-group">
 			<label class="control-label" for="sname">姓名:</label>
 			<input class="form-control" type="text" placeholder="请输入名称" name="sname" id="sname"/>
@@ -19,7 +15,24 @@
 			<input class="form-control" type="text" placeholder="请输入年龄" name="sage" id="sage"/>
 		</div>
 		<div class="form-group">
-			<button class="btn btn-primary btn-lg" onclick="this.submit()">保存</button>
+			<label class="control-label" for="email">Email:</label>
+			<input class="form-control" type="text" placeholder="请输入email" name="email" id="email"/>
+		</div>
+		<div class="form-group">
+			<label class="control-label" for="phoneno">电话号码:</label>
+			<input class="form-control" type="text" placeholder="请输入电话号码" name="phoneno" id="phoneno"/>
+		</div>
+		<div class="form-group">
+			<button class="btn btn-primary btn-lg" onclick="doSave()">保存</button>
 	  	</div>
 	</form>
 </div>
+<script type="text/javascript">
+function doSave(){
+	$.post("@{Application.dosave()}", $("#studentForm").serialize(),function(data){
+		alert(data.message);
+	});
+}
+
+</script>
+

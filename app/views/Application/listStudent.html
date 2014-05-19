@@ -8,6 +8,9 @@
 			<th>ID</th>
 			<th>姓名</th>
 			<th>年龄</th>
+			<th>Email</th>
+			<th>电话号码</th>
+			<th>操作</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -16,8 +19,28 @@
 			<td>${student.id}</td>
 			<td>${student.sname}</td>
 			<td>${student.sage}</td>
+			<td>${student.email}</td>
+			<td>${student.phoneno}</td>
+			<td>
+				<button class="btn btn-primary btn-sm" onclick="edit(${student.id})" data="${student.id}">编辑</button>
+				<button class="btn btn-primary btn-sm" onclick="del(${student.id})" data="${student.id}">删除</button>
+			</td>
 		</tr>
 	#{/list}
 	</tbody>
 </table>
 </div>
+<script type="text/javascript">
+function edit(id){
+	window.location.href = "@{Application.edit()}";
+}
+function del(id){
+	if(!confirm("确定要 删除吗？")){
+		return;
+	}
+	$.get("@{Application.del()}", {"id":id}, function(data){
+		alert(data.message);
+		window.location.href = "@{Application.listStudent()}";
+	});
+}
+</script>
