@@ -1,18 +1,39 @@
 #{extends 'main.html' /}
 #{set title:'来坐坐吧' /}
-
-#{if flash.error}
-	<p>${flash.error}</p>
-#{/if}
-<!--
-<form action="@{Application.sayHello()}" method="GET">
-    <input type="text" name="myName" /> 
-    <input type="submit" value="Say hello!" />
-</form>
-<form action="@{Application.proxy()}" method="GET">
-    <input type="text" name="urlStr" /> 
-    <input type="submit" value="Go!" />
-</form>
-<br/>
--->
-
+#{set "moreStyles"}
+<link href="@{'/public/jq22/css/style.min.css'}" rel="stylesheet" />
+<link href="@{'/public/jq22/css/prism.min.css'}" rel="stylesheet" />
+#{/set}
+#{set "moreScripts"}
+<script src="@{'/public/jq22/js/jquery.lazyload.js'}"></script>
+<script src="@{'/public/jq22/js/least.min.js'}"></script>
+#{/set}
+<section>
+    <ul id="gallery">
+    	#{list items:lists, as : 'item'}
+        <li>
+            <a href="http://js0801.qiniudn.com/${item.key}"></a>
+            <img data-original="http://js0801.qiniudn.com/${item.key}?imageView2/2/w/240" src="@{'/public/jq22/img/effects/white.gif'}" width="240" height="150" alt="Ocean" />
+            
+            <div class="overLayer"></div>
+            <div class="infoLayer">
+                <ul>
+                    <li>
+                        <h2>
+                            Ocean 
+                        </h2>
+                    </li>
+                    <li>
+                        <p>
+                            View Picture
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="projectInfo">
+                <strong>Monday, 14th April 2093:</strong> sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+            </div>
+        </li>
+		#{/list}
+    </ul>
+</section>

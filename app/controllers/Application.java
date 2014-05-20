@@ -40,7 +40,9 @@ import utils.SqlSessionFactoryUtls;
 public class Application extends Controller {
 
     public static void index() {
-        render(null,123);
+    	List<ListItem> lists = getImageList();
+    	
+        render(lists, "");
     }
    
     public static void lijin(){
@@ -179,11 +181,8 @@ public class Application extends Controller {
     	renderJSON("{\"message\":\"删除成功！\"}");
 	}
 	
-	/**
-	 * 查看七牛云服务器上的图片列表
-	 */
-	public static void listImage(){
-        Mac mac = CommonUtils.getMac();
+	private static List<ListItem> getImageList(){
+		Mac mac = CommonUtils.getMac();
         RSFClient client = new RSFClient(mac);
         String marker = "";
         List<ListItem> all = new ArrayList<ListItem>();
@@ -196,6 +195,14 @@ public class Application extends Controller {
                 break;
             }
         }
+        return all;
+	}
+	
+	/**
+	 * 查看七牛云服务器上的图片列表
+	 */
+	public static void listImage(){
+		List<ListItem> all = getImageList();
 		render(all, "");
 	}
 	
