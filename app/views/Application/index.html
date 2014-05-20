@@ -7,9 +7,11 @@
 #{set "moreScripts"}
 <script src="@{'/public/jq22/js/jquery.lazyload.js'}"></script>
 <script src="@{'/public/jq22/js/least.min.js'}"></script>
+
 #{/set}
 <section>
     <ul id="gallery">
+    	<li id="fullPreview"></li>
     	#{list items:lists, as : 'item'}
         <li>
             <a href="http://js0801.qiniudn.com/${item.key}"></a>
