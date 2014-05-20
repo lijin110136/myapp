@@ -4,14 +4,49 @@
 #{if flash.error}
 	<p>${flash.error}</p>
 #{/if}
+#{set "moreScripts"}
+<script src="@{'/public/javascripts/CryptoJS.js'}" type="text/javascript" charset="utf-8"></script>
+<script src="@{'/public/javascripts/qiniu.js'}" type="text/javascript" charset="utf-8"></script>
+<script src="@{'/public/javascripts/ajaxfileupload.js'}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	function upload(){
+		putstr = '{"scope":"js0801","deadline":1451491200}';
+		var upToken = genUpToken(putstr);
+		//$("#token").val(upToken);
+		//document.forms[0].submit();
+		$.ajaxFileUpload
+        (
+            {
+               url:'http://up.qiniu.com',//用于文件上传的服务器端请求地址
+               secureuri:false,//一般设置为false
+               fileElementId:'file',//文件上传空间的id属性  <input type="file" id="file" name="file" />
+               dataType: 'json',//返回值类型 一般设置为json
+               data: {"token": upToken},
+               //暂时不使用返回data，因为存在跨域访问的问题，得到的data为空。
+               success: function ()  //服务器成功响应处理函数
+               {
+                    alert("上传成功！");//从服务器返回的json中取出message中的数据,其中message为在struts2中action中定义的成员变量
+               },
+            }
+        )
+        return false;
+	}
+</script>
+
+#{/set}
 <div class="container">
-	<form role="form" action="@{Application.upload()}" method="POST" enctype="multipart/form-data">
+	<form action="http://up.qiniu.com" method="POST" enctype="multipart/form-data">
 	    <div class="form-group">
 	    	<label for="uploadFile">选择文件</label>
-			<input class="form-control" type="file" placeholder="选择上传文件" name="uploadFile" id="uploadFile"/>
+	    	<!--  
+	    	<input name="key" type="hidden" value="<resource_key>">
+  			<input name="x:<custom_name>" type="hidden" value="<custom_value>">
+  			-->
+  			<input name="token" type="hidden" value="" id="token">
+			<input class="form-control" type="file" placeholder="选择上传文件" name="file" id="file"/>
 		</div>
 		<div class="form-group">
-			<button class="btn btn-primary btn-lg" onclick="this.submit()">上传</button>
+			<button type="button" class="btn btn-primary btn-lg" onclick="upload()">上传</button>
 	  	</div>
 	</form>
 </div>

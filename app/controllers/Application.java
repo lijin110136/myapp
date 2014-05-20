@@ -17,10 +17,23 @@ import java.util.Map;
 import models.Student;
 
 import org.apache.ibatis.session.SqlSession;
+import org.jboss.netty.logging.CommonsLoggerFactory;
+import org.json.JSONException;
+
+import com.qiniu.api.auth.AuthException;
+import com.qiniu.api.auth.digest.Mac;
+import com.qiniu.api.config.Config;
+import com.qiniu.api.net.CallRet;
+import com.qiniu.api.rs.PutPolicy;
+import com.qiniu.api.rs.RSClient;
+import com.qiniu.api.rsf.ListItem;
+import com.qiniu.api.rsf.ListPrefixRet;
+import com.qiniu.api.rsf.RSFClient;
 
 import play.data.validation.Required;
 import play.libs.Files;
 import play.mvc.Controller;
+import utils.CommonUtils;
 import utils.ConnectionUtils;
 import utils.SqlSessionFactoryUtls;
 
@@ -63,6 +76,9 @@ public class Application extends Controller {
     	
     }
     
+    /**将文件上传到七牛空间中
+     * @param uploadFile
+     */
     public static void upload(File uploadFile){
     	File f = new File("upload/" + uploadFile.getName());
     	Files.copy(uploadFile, f);
@@ -161,6 +177,33 @@ public class Application extends Controller {
 			sqlSession.close();
 		}
     	renderJSON("{\"message\":\"删除成功！\"}");
+	}
+	
+	/**
+	 * 查看七牛云服务器上的图片列表
+	 */
+	public static void listImage(){
+        Mac mac = CommonUtils.getMac();
+        RSFClient client = new RSFClient(mac);
+        String marker = "";
+        List<ListItem> all = new ArrayList<ListItem>();
+        ListPrefixRet ret = null;
+        while (true) {
+            ret = client.listPrifix(CommonUtils.BUCKET, null, marker, 10);
+            marker = ret.marker;
+            all.addAll(ret.results);
+            if (!ret.ok()) {
+                break;
+            }
+        }
+		render(all, "");
+	}
+	
+	public static void deleteImage(String key){
+		Mac mac = CommonUtils.getMac();
+		RSClient client = new RSClient(mac);
+		CallRet ret = client.delete(CommonUtils.BUCKET, key);
+		renderJSON("{\"message\":\"删除成功！\"}");
 	}
 	
 }

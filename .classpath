@@ -87,5 +87,17 @@
 	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/sqlite-jdbc-3.7.15-SNAPSHOT-2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-configuration-1.8.jar"/>
+	<classpathentry kind="lib" path="lib/qiniu-6.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-cli-1.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/fluent-hc-4.2.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-4.2.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-cache-4.2.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-ab-4.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-nio-4.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpmime-4.2.jar"/>
+	<classpathentry kind="lib" path="lib/junit-3.8.1.jar"/>
+	<classpathentry kind="lib" path="lib/org.json-chargebee-1.0.jar"/>
 	<classpathentry kind="output" path="eclipse/classes"/>
 </classpath>
