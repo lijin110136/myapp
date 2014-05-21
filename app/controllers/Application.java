@@ -1,7 +1,14 @@
 package controllers;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,6 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import models.Student;
 
@@ -33,6 +42,8 @@ import com.qiniu.api.rsf.RSFClient;
 import play.data.validation.Required;
 import play.libs.Files;
 import play.mvc.Controller;
+import qq.biz.QQInfo;
+import qq.biz.QQUtils;
 import utils.CommonUtils;
 import utils.ConnectionUtils;
 import utils.SqlSessionFactoryUtls;
@@ -213,4 +224,47 @@ public class Application extends Controller {
 		renderJSON("{\"message\":\"删除成功！\"}");
 	}
 	
+	public static void showQQInfo(){
+		File f = new File("public/images/" + "qqbackground.jpg");
+		BufferedImage image = null;
+		FileInputStream fis = null;
+		try {
+			image = ImageIO.read(f);
+			fis = new FileInputStream(f);
+			//取得访问者的QQ信息
+			String qqZoneURL = request.headers.get("referer").value();
+			//qqZoneURL  = "http://user.qzone.qq.com/838812705/infocenter";
+			if((qqZoneURL != null) && (!"".equals(qqZoneURL))){
+				String qqtmp = qqZoneURL.substring(qqZoneURL.indexOf("uin") + "uin=".length());
+				String qq = qqtmp.substring(0, qqtmp.indexOf("&"));
+				QQInfo qqInfo = QQUtils.getQQInfo(qq);
+				String qqName = qqInfo.getQqName();
+				String headUrl = qqInfo.getHeadUrl();
+				Graphics graphics = image.getGraphics();
+				Font font = new Font("楷体", Font.BOLD, 50);
+				graphics.setFont(font);
+				graphics.setColor(Color.RED);
+				graphics.drawString(qqName, 0, 100);
+				BufferedImage headImage = QQUtils.imageFromURL(headUrl);
+				if(headImage != null){
+					graphics.drawImage(headImage, 0, 150, null);
+				}
+			}
+			ByteArrayOutputStream bs = new ByteArrayOutputStream();
+			ImageIO.write(image, "jpg", bs);
+			ByteArrayInputStream is= new ByteArrayInputStream(bs.toByteArray());
+			response.setContentTypeIfNotSet("image/jpg");
+			renderBinary(is);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			if(fis != null){
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }
