@@ -267,4 +267,9 @@ public class Application extends Controller {
 			}
 		}
 	}
+	
+	public static void videoShow() {
+		List<ListItem> lists = getImageList();
+		render(lists, "");
+	}
 }

@@ -9,13 +9,14 @@
 <script src="@{'/public/jq22/js/least.min.js'}"></script>
 
 #{/set}
+<div class="container">
 <section>
     <ul id="gallery">
     	<li id="fullPreview"></li>
     	#{list items:lists, as : 'item'}
         <li>
             <a href="http://js0801.qiniudn.com/${item.key}"></a>
-            <img data-original="http://js0801.qiniudn.com/${item.key}?imageView2/2/w/240" src="@{'/public/jq22/img/effects/white.gif'}" width="240" height="150" alt="Ocean" />
+            <img data-original="http://js0801.qiniudn.com/${item.key}?imageView2/2/h/150" src="@{'/public/jq22/img/effects/white.gif'}" alt="Ocean" />
             
             <div class="overLayer"></div>
             <div class="infoLayer">
@@ -39,3 +40,4 @@
 		#{/list}
     </ul>
 </section>
+</div>
