@@ -56,10 +56,6 @@ public class Application extends Controller {
         render(lists, "");
     }
    
-    public static void lijin(){
-    	renderJSON("{name:'李金'}");
-    }
-    
     public static void sayHello(@Required String myName){
     	if(validation.hasErrors()){
     		flash.error("Please enter name");
@@ -96,10 +92,6 @@ public class Application extends Controller {
     	File f = new File("upload/" + uploadFile.getName());
     	Files.copy(uploadFile, f);
     	renderText(uploadFile.getName());
-    }
-    
-    public static void list(){
-    	render();
     }
     
     public static void listStudent(){
