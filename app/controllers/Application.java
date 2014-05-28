@@ -127,6 +127,21 @@ public class Application extends Controller {
 		render(studentList);
     }
     
+    public static void selectStudent(Long id){
+    	SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
+    	Student student = new Student();
+		try {
+			if(id != null){
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", id);
+				student = (Student)sqlSession.selectOne("models.Student.selectStudent", map);
+			}
+		}finally{
+			sqlSession.close();
+		}
+    	renderJSON(student);
+    }
+    
     public static void edit(Long id){
     	if(id == null){
     		render();
