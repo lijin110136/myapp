@@ -92,7 +92,6 @@ function doSave(){
 
 <script type="text/javascript">
 function edit(id){
-	//window.location.href = "@{Application.edit()}?id=" + id;
 	$.get("@{Application.selectStudent()}", {"id":id}, function(student){
 		setValue("id",  student.id);
 		setValue("sname",  student.sname);
