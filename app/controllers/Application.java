@@ -142,23 +142,6 @@ public class Application extends Controller {
     	renderJSON(student);
     }
     
-    public static void edit(Long id){
-    	if(id == null){
-    		render();
-    		return;
-    	}
-    	SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
-    	Student student = new Student();
-		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
-			student = (Student)sqlSession.selectOne("models.Student.selectStudent", map);
-		}finally{
-			sqlSession.close();
-		}
-    	render(student, "");
-    }
-    
     public static void doSave(Long id, String sname, Integer sage, String email, String phoneno){
     	Student student = new Student();
     	student.setId(id);
