@@ -12,6 +12,7 @@
         <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
         <script src="@{'/public/javascripts/jquery-1.11.1.min.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         <script src="@{'/public/bootstrap/js/bootstrap.js'}" type="text/javascript" charset="${_response_encoding}"></script>
+        <script src="@{'/public/javascripts/common-utils.js'}" type="text/javascript" charset="${_response_encoding}"></script>
         #{get 'moreScripts' /}
     </head>
     <body>
@@ -22,10 +23,9 @@
 			    <ul class="nav navbar-nav">
 					<li class="active"><a class="navbar-brand" href="@{Application.index()}">首页</a></li>
 					<li><a href="@{Application.listStudent()}">显示学生信息</a></li>
-					<li><a href="@{Application.list()}">上传文件</a></li>
-					<li><a href="@{Application.listImage()}">查看图片列表</a></li>
-					<li><a href="@{Application.edit()}">新增学生信息</a></li>
-					<li><a href="@{Application.listUploadFile()}">查看上传文件列表</a></li>
+					<li><a href="@{Application.listImage()}">图片列表</a></li>
+					<!--  <li><a href="@{Application.listUploadFile()}">上传文件列表</a></li> -->
+					<li><a href="@{Application.videoShow()}">电子相册</a></li>
 			    </ul>
 			  </div>
 			</nav>

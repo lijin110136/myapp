@@ -1,8 +1,22 @@
 #{extends 'main.html' /}
 #{set title:'来坐坐吧' /}
+#{set "moreScripts"}
+<script type="text/javascript">
+function doSave(){
+	$.post("@{Application.dosave()}", $("#studentForm").serialize(),function(data){
+		//alert(data.message);
+		$('#myModal').modal('hide');
+		window.location.href = "@{Application.listStudent()}";
+	});
+}
+</script>
+#{/set}
+
 <div class="container">
-<div class="text-center"><h1 style="color:ccc;">学生列表</h1></div>
-<table class="table table-striped table-bordered table-hover table-condensed" style="width:100%">
+<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+	 <span class="glyphicon glyphicon-plus"></span> 新增
+</button>
+<table class="table table-striped table-bordered table-hover table-condensed" style="width:100%;margin-top:10px">
 	<thead>
 		<tr>
 			<th>ID</th>
@@ -22,24 +36,81 @@
 			<td>${student.email}</td>
 			<td>${student.phoneno}</td>
 			<td>
-				<button class="btn btn-primary btn-sm" onclick="edit(${student.id})" data="${student.id}">编辑</button>
-				<button class="btn btn-primary btn-sm" onclick="del(${student.id})" data="${student.id}">删除</button>
+				<button class="btn btn-default btn-sm" onclick="edit(${student.id})" data="${student.id}">
+					<span class="glyphicon glyphicon-edit"></span> 编辑
+				</button>
+				<button class="btn btn-default btn-sm" onclick="del(${student.id})" data="${student.id}">
+					<span class="glyphicon glyphicon-remove"></span> 删除
+				</button>
 			</td>
 		</tr>
 	#{/list}
 	</tbody>
 </table>
 </div>
+<!-- 新增学生对话框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">新增学生</h4>
+      </div>
+      <div class="modal-body">
+	   <form action="@{Application.dosave()}" method="POST" id="studentForm">
+	   		<input type="hidden" name="id" />
+			<div class="form-group">
+				<label class="control-label" for="sname">姓名:</label>
+				<input class="form-control" type="text" placeholder="请输入名称" name="sname" id="sname" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="sage">年龄:</label>
+				<input class="form-control" type="text" placeholder="请输入年龄" name="sage" id="sage" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="email">Email:</label>
+				<input class="form-control" type="text" placeholder="请输入email" name="email" id="email" />
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="phoneno">电话号码:</label>
+				<input class="form-control" type="text" placeholder="请输入电话号码" name="phoneno" id="phoneno" />
+			</div>
+		</form>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-primary" onclick="doSave()">
+      		<span class="glyphicon glyphicon-save"></span>保存
+      	</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+			<span class="glyphicon glyphicon-remove"></span>取消
+		</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script type="text/javascript">
 function edit(id){
-	window.location.href = "@{Application.edit()}?id=" + id;
+	$.get("@{Application.selectStudent()}", {"id":id}, function(student){
+		setValue("id",  student.id);
+		setValue("sname",  student.sname);
+		setValue("sage",  student.sage);
+		setValue("email",  student.email);
+		setValue("phoneno",  student.phoneno);
+		
+		$('#myModal').modal('show');
+	});
+	
 }
+
+
+
 function del(id){
 	if(!confirm("确定要删除吗？")){
 		return;
 	}
 	$.get("@{Application.del()}", {"id":id}, function(data){
-		alert(data.message);
+		//alert(data.message);
 		window.location.href = "@{Application.listStudent()}";
 	});
 }

@@ -56,10 +56,6 @@ public class Application extends Controller {
         render(lists, "");
     }
    
-    public static void lijin(){
-    	renderJSON("{name:'李金'}");
-    }
-    
     public static void sayHello(@Required String myName){
     	if(validation.hasErrors()){
     		flash.error("Please enter name");
@@ -98,10 +94,6 @@ public class Application extends Controller {
     	renderText(uploadFile.getName());
     }
     
-    public static void list(){
-    	render();
-    }
-    
     public static void listStudent(){
     	//Connection conn = ConnectionUtils.getConnection();
 //    	ResultSet rs = ConnectionUtils.exeucteQuery("select * from student");
@@ -127,21 +119,19 @@ public class Application extends Controller {
 		render(studentList);
     }
     
-    public static void edit(Long id){
-    	if(id == null){
-    		render();
-    		return;
-    	}
+    public static void selectStudent(Long id){
     	SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
     	Student student = new Student();
 		try {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("id", id);
-			student = (Student)sqlSession.selectOne("models.Student.selectStudent", map);
+			if(id != null){
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", id);
+				student = (Student)sqlSession.selectOne("models.Student.selectStudent", map);
+			}
 		}finally{
 			sqlSession.close();
 		}
-    	render(student, "");
+    	renderJSON(student);
     }
     
     public static void doSave(Long id, String sname, Integer sage, String email, String phoneno){
@@ -266,5 +256,10 @@ public class Application extends Controller {
 				}
 			}
 		}
+	}
+	
+	public static void videoShow() {
+		List<ListItem> lists = getImageList();
+		render(lists, "");
 	}
 }

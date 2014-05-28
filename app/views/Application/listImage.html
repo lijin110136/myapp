@@ -1,19 +1,52 @@
 #{extends 'main.html' /}
 #{set title:'来坐坐吧' /}
 #{set "moreScripts"}
+<script src="@{'/public/javascripts/CryptoJS.js'}" type="text/javascript" charset="utf-8"></script>
+<script src="@{'/public/javascripts/qiniu.js'}" type="text/javascript" charset="utf-8"></script>
+<script src="@{'/public/javascripts/ajaxfileupload.js'}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	function deleteImage(key){
+		if(!confirm("确定要删除吗?")){
+			return false;
+		}
 		$.post("@{Application.deleteImage()}", {"key":key},function(data){
-			alert(data.message);
+			//alert(data.message);
 			window.location.href="@{Application.listImage()}";
 		});
+	}
+	
+	function upload(){
+		putstr = '{"scope":"js0801","deadline":1451491200}';
+		var upToken = genUpToken(putstr);
+		//$("#token").val(upToken);
+		//document.forms[0].submit();
+		$.ajaxFileUpload
+        (
+            {
+               url:'http://up.qiniu.com',//用于文件上传的服务器端请求地址
+               secureuri:false,//一般设置为false
+               fileElementId:'file',//文件上传空间的id属性  <input type="file" id="file" name="file" />
+               dataType: 'json',//返回值类型 一般设置为json
+               data: {"token": upToken},
+               //暂时不使用返回data，因为存在跨域访问的问题，得到的data为空。
+               success: function ()  //服务器成功响应处理函数
+               {
+                    alert("上传成功！");//从服务器返回的json中取出message中的数据,其中message为在struts2中action中定义的成员变量
+                    $('#myModal').modal('hide');
+                    window.location.href="@{Application.listImage()}";
+               },
+            }
+        )
+        return false;
 	}
 </script>
 	
 #{/set}
 <div class="container">
-<div class="text-center"><h1 style="color:ccc;">图片列表</h1></div>
-<table class="table table-striped table-bordered table-hover table-condensed"  style="width:100%">
+<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+	 <span class="glyphicon glyphicon-plus"></span>上传图片
+</button>
+<table class="table table-striped table-bordered table-hover table-condensed"  style="width:100%;margin-top:10px">
 	<thead>
 		<tr>
 			<th>图片名称</th>
@@ -33,10 +66,40 @@
 				</div>
 			</td>
 			<td>
-				<button class="btn btn-primary btn-sm" onclick="deleteImage('${item.key}')">删除</button>
+				<button class="btn btn-default btn-sm" onclick="deleteImage('${item.key}')">
+					<span class="glyphicon glyphicon-remove"></span> 删除
+				</button>
 			</td>
 		</tr>
 	#{/list}
 	</tbody>
 </table>
+<!-- 上传图片对话框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">图片上传</h4>
+      </div>
+      <div class="modal-body">
+		<form action="http://up.qiniu.com" method="POST" enctype="multipart/form-data">
+		    <div class="form-group">
+		    	<label for="uploadFile">选择图片</label>
+	  			<input name="token" type="hidden" value="" id="token">
+				<input class="form-control" type="file" placeholder="选择上传文件" name="file" id="file"/>
+			</div>
+		</form>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-primary" onclick="upload()">
+      		<span class="glyphicon glyphicon-save"></span>确定
+      	</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+			<span class="glyphicon glyphicon-remove"></span>取消
+		</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 </div>

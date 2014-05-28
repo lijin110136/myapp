@@ -1,0 +1,23 @@
+#{extends 'main.html' /}
+#{set title:'来坐坐吧' /}
+#{set "moreStyles"}
+#{/set}
+#{set "moreScripts"}
+<script src="@{'/public/jwplayer/jwplayer.js'}"></script>
+<script type="text/javascript">
+$(function(){
+	jwplayer("videoDiv").setup({
+		file: "/public/mp3/buzailianxi.mp3",
+		image: "/public/images/qqbackground.jpg",
+		width: 640,
+        height: 360
+	});
+});
+</script>
+#{/set}
+<div class="container">
+	<div id="videoDiv"></div>
+</div>
+#{list items:lists, as : 'item'}
+
+#{/list}
