@@ -1,43 +1,71 @@
 #{extends 'main.html' /}
 #{set title:'来坐坐吧' /}
 #{set "moreStyles"}
-<link href="@{'/public/jq22/css/style.min.css'}" rel="stylesheet" />
-<link href="@{'/public/jq22/css/prism.min.css'}" rel="stylesheet" />
+<link href="@{'/public/xm2/css/demo.css'}" rel="stylesheet" />
+<link href="@{'/public/xm2/css/style.css'}" rel="stylesheet" />
+<link href="@{'/public/xm2/css/elastislide.css'}" rel="stylesheet" />
 #{/set}
 #{set "moreScripts"}
-<script src="@{'/public/jq22/js/jquery.lazyload.js'}"></script>
-<script src="@{'/public/jq22/js/least.min.js'}"></script>
 
+<script type="text/javascript" src="@{'/public/xm2/js/jquery.tmpl.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/xm2/js/jquery.easing.1.3.js'}"></script>
+<script type="text/javascript" src="@{'/public/xm2/js/jquery.elastislide.js'}"></script>
+<script type="text/javascript" src="@{'/public/xm2/js/gallery.js'}"></script>
+<noscript>
+			<style>
+				.es-carousel ul{
+					display:block;
+				}
+			</style>
+		</noscript>
+		<script id="img-wrapper-tmpl" type="text/x-jquery-tmpl">	
+			<div class="rg-image-wrapper">
+				{{if itemsCount > 1}}
+					<div class="rg-image-nav">
+						<a href="#" class="rg-image-nav-prev">Previous Image</a>
+						<a href="#" class="rg-image-nav-next">Next Image</a>
+					</div>
+				{{/if}}
+				<div class="rg-image"></div>
+				<div class="rg-loading"></div>
+				<div class="rg-caption-wrapper">
+					<div class="rg-caption" style="display:none;">
+						<p></p>
+					</div>
+				</div>
+			</div>
+		</script>
 #{/set}
 <div class="container">
-<section>
-    <ul id="gallery">
-    	<li id="fullPreview"></li>
-    	#{list items:lists, as : 'item'}
-        <li>
-            <a href="http://js0801.qiniudn.com/${item.key}"></a>
-            <img class="img-thumbnail img-responsive" data-original="http://js0801.qiniudn.com/${item.key}?imageView2/2/h/150" src="@{'/public/jq22/img/effects/white.gif'}" alt="Ocean" />
-            
-            <div class="overLayer"></div>
-            <div class="infoLayer">
-                <ul>
-                    <li>
-                        <h2>
-                            Ocean 
-                        </h2>
-                    </li>
-                    <li>
-                        <p>
-                            View Picture
-                        </p>
-                    </li>
-                </ul>
-            </div>
-            <div class="projectInfo">
-                <strong>Monday, 14th April 2093:</strong> sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-            </div>
-        </li>
-		#{/list}
-    </ul>
-</section>
+	<div class="content">
+		<h1>
+			美好時光
+		</h1>
+		<div id="rg-gallery" class="rg-gallery">
+			<div class="rg-thumbs">
+				<!-- Elastislide Carousel Thumbnail Viewer -->
+				<div class="es-carousel-wrapper">
+					<div class="es-nav">
+						<span class="es-nav-prev">Previous</span> <span
+							class="es-nav-next">Next</span>
+					</div>
+					<div class="es-carousel">
+						<ul>
+							#{list items:lists, as : 'item'}
+							<li><a href="#"><img src="http://js0801.qiniudn.com/${item.key}?imageView2/2/h/200"
+									data-large="http://js0801.qiniudn.com/${item.key}" alt="image01"
+									data-description="From off a hill whose concave womb reworded" /></a></li>
+							#{/list}
+						</ul>
+					</div>
+				</div>
+				<!-- End Elastislide Carousel Thumbnail Viewer -->
+			</div>
+			<!-- rg-thumbs -->
+		</div>
+		<!-- rg-gallery -->
+		<p>
+	</div>
+	<!-- content -->
 </div>
+<!-- container -->
