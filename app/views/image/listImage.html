@@ -16,7 +16,7 @@
 	function upload(){
 		//$("#token").val(upToken);
 		//document.forms[0].submit();
-		var dataobj = {title: $("#title").val(), description:$("#description").val()}
+		var dataobj = {id: $("#id").val(), title: $("#title").val(), description:$("#description").val()}
 		$.ajaxFileUpload
         (
             {
@@ -28,13 +28,22 @@
                //暂时不使用返回data，因为存在跨域访问的问题，得到的data为空。
                success: function(data, status)//服务器成功响应处理函数
                {
-                    alert("上传成功！");//从服务器返回的json中取出message中的数据,其中message为在struts2中action中定义的成员变量
+                    //alert(data.message);//从服务器返回的json中取出message中的数据,其中message为在struts2中action中定义的成员变量
                     $('#myModal').modal('hide');
                     window.location.href="@{ImageController.listImage()}";
                }
             }
         )
         return false;
+	}
+	
+	function editImage(id){
+		$.get("@{ImageController.selectImage()}", {"id":id}, function(image){
+			setValue("id",  image.id);
+			setValue("title",  image.title);
+			$("#description").val(image.description);
+			$('#myModal').modal('show');
+		});
 	}
 </script>
 	
@@ -63,6 +72,9 @@
 				</div>
 			</td>
 			<td>
+				<button class="btn btn-default btn-sm" onclick="editImage(${image.id})">
+					<span class="glyphicon glyphicon-edit"></span> 编辑
+				</button>
 				<button class="btn btn-default btn-sm" onclick="deleteImage(${image.id}, '${image.url}')">
 					<span class="glyphicon glyphicon-remove"></span> 删除
 				</button>
@@ -81,6 +93,7 @@
       </div>
       <div class="modal-body">
 		<form action="http://up.qiniu.com" method="POST" enctype="multipart/form-data">
+			<input type="hidden" name="id" id="id"/>
 			<div class="form-group">
 		    	<label for="title">图片标题</label>
 				<input class="form-control" type="text" placeholder="输入图片标题" name="title" id="title"/>

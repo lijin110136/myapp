@@ -23,7 +23,10 @@
 	<update id="updateImage" parameterType="models.Image">
 		update image 
 		<set>
+			<if test="fname != null">fname=#{fname},</if>
+			<if test="url != null">url=#{url},</if>
 			<if test="title != null">title=#{title},</if>
+			<if test="fsize != null">fsize=#{fsize},</if>
 			<if test="description != null">description=#{description},</if>
 			<if test="modifiedTime != null">modifiedTime=#{modifiedTime},</if>
 			<if test="modifiedUserName != null">modifiedUserName=#{modifiedUserName}</if>

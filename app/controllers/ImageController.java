@@ -5,12 +5,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.json.JSONException;
 
 import models.Image;
+import models.Student;
 
 import com.qiniu.api.auth.AuthException;
 import com.qiniu.api.auth.digest.Mac;
@@ -81,33 +84,65 @@ public class ImageController extends Controller{
         return list;
 	}
 	
-	public static void uploadImage(File file, String description, String title){
+	public static void uploadImage(File file, Long id, String description, String title){
 		//上传图片到七牛空间
 		Mac mac = CommonUtils.getMac();
 		PutPolicy putPolicy = new PutPolicy(CommonUtils.BUCKET);
 		SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
 		try {
-			String uptoken = putPolicy.token(mac);
-			PutExtra extra = new PutExtra();
-			String key = null;
-	        PutRet ret = IoApi.putFile(uptoken, key, file.getAbsolutePath(), extra);
-	        if(ret.getStatusCode() > 200){
-	        	return;
-	        }
-	        Image image = new Image();
-			image.setFname(file.getName());
-			image.setUrl(ret.getKey());
-			image.setDescription(description);
-			image.setTitle(title);
-			image.setCreatedTime(new Date());
-			image.setModifiedTime(new Date());
-			image.setFsize((double)(file.length()/1024));
-			
-	    	sqlSession.insert("models.Image.insertImage", image);
-	    	sqlSession.commit();
-			sqlSession.close();
-			renderHtml("{\"message\":\"删除成功！\"}");
-			
+			//新增
+			if(id == null){
+				String uptoken = putPolicy.token(mac);
+				PutExtra extra = new PutExtra();
+				String key = null;
+		        PutRet ret = IoApi.putFile(uptoken, key, file.getAbsolutePath(), extra);
+		        if(ret.getStatusCode() > 200){
+		        	return;
+		        }
+		        Image image = new Image();
+				image.setFname(file.getName());
+				image.setUrl(ret.getKey());
+				image.setDescription(description);
+				image.setTitle(title);
+				image.setCreatedTime(new Date());
+				image.setModifiedTime(new Date());
+				image.setFsize((double)(file.length()/1024));
+				
+		    	sqlSession.insert("models.Image.insertImage", image);
+		    	sqlSession.commit();
+				renderHtml("{\"message\":\"上传成功！\"}");
+			}else{
+				//更新操作
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", id);
+				Image image = (Image)sqlSession.selectOne("models.Image.selectImage", map);
+				//1.如果选择了新图片，删除旧的图片
+				if(file != null){
+					String key = image.getUrl();
+					RSClient client = new RSClient(mac);
+			    	client.delete(CommonUtils.BUCKET, key);
+			    	
+			    	//上传新的照片
+			    	String uptoken = putPolicy.token(mac);
+					PutExtra extra = new PutExtra();
+					key = null;
+			        PutRet ret = IoApi.putFile(uptoken, key, file.getAbsolutePath(), extra);
+			        if(ret.getStatusCode() > 200){
+			        	return;
+			        }
+			    	
+			    	image.setFname(file.getName());
+			    	image.setUrl(ret.getKey());
+			    	image.setFsize((double)(file.length()/1024));
+				}
+				//2.更新数据
+				image.setDescription(description);
+				image.setTitle(title);
+				image.setModifiedTime(new Date());
+				sqlSession.update("models.Image.updateImage", image);
+	    		sqlSession.commit();
+	    		renderHtml("{\"message\":\"保存成功！\"}");
+			}
 		} catch (AuthException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
@@ -115,5 +150,20 @@ public class ImageController extends Controller{
 		}finally{
 			sqlSession.close();
 		}
+	}
+	
+	public static void selectImage(Long id){
+		SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
+    	Image image = new Image();
+		try {
+			if(id != null){
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", id);
+				image = (Image)sqlSession.selectOne("models.Image.selectImage", map);
+			}
+		}finally{
+			sqlSession.close();
+		}
+    	renderJSON(image);
 	}
 }
