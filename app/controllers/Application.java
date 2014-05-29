@@ -230,4 +230,12 @@ public class Application extends Controller {
 	public static void videoShow() {
 		render();
 	}
+	
+	public static void login(){
+		render();
+	}
+	
+	public static void doLogin(){
+		render();
+	}
 }
