@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+			"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="models.Image">
+	<select id="selectImage" parameterType="map" resultType="models.Image">
+		select * from image
+		<where>
+			<if test=" id != null">
+				id = #{id}
+			</if>
+		</where>
+		order by modifiedTime desc;
+	</select>
+	<insert id="insertImage" parameterType="models.Image">
+		insert into image(id,title, fname, url,description,fsize,createdTime, modifiedTime, createdUserName, modifiedUserName)
+		values 
+			(#{id},#{title}, #{fname}, #{url}, #{description}, #{fsize},#{createdTime}, #{modifiedTime}, #{createdUserName}, #{modifiedUserName})
+	</insert>
+	<delete id="deleteImage" parameterType="long">
+		delete from image where id = #{id}
+	</delete>
+	<update id="updateImage" parameterType="models.Image">
+		update image 
+		<set>
+			<if test="title != null">title=#{title},</if>
+			<if test="description != null">description=#{description},</if>
+			<if test="modifiedTime != null">modifiedTime=#{modifiedTime},</if>
+			<if test="modifiedUserName != null">modifiedUserName=#{modifiedUserName}</if>
+		</set>
+		where id = #{id}
+	</update>
+</mapper>

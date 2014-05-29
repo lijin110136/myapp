@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import models.Image;
 import models.Student;
 
 import org.apache.ibatis.session.SqlSession;
@@ -51,7 +52,7 @@ import utils.SqlSessionFactoryUtls;
 public class Application extends Controller {
 
     public static void index() {
-    	List<ListItem> lists = getImageList();
+    	List<Image> lists = ImageController.getImageList();
     	
         render(lists, "");
     }
@@ -182,38 +183,6 @@ public class Application extends Controller {
     	renderJSON("{\"message\":\"删除成功！\"}");
 	}
 	
-	private static List<ListItem> getImageList(){
-		Mac mac = CommonUtils.getMac();
-        RSFClient client = new RSFClient(mac);
-        String marker = "";
-        List<ListItem> all = new ArrayList<ListItem>();
-        ListPrefixRet ret = null;
-        while (true) {
-            ret = client.listPrifix(CommonUtils.BUCKET, null, marker, 10);
-            marker = ret.marker;
-            all.addAll(ret.results);
-            if (!ret.ok()) {
-                break;
-            }
-        }
-        return all;
-	}
-	
-	/**
-	 * 查看七牛云服务器上的图片列表
-	 */
-	public static void listImage(){
-		List<ListItem> all = getImageList();
-		render(all, "");
-	}
-	
-	public static void deleteImage(String key){
-		Mac mac = CommonUtils.getMac();
-		RSClient client = new RSClient(mac);
-		CallRet ret = client.delete(CommonUtils.BUCKET, key);
-		renderJSON("{\"message\":\"删除成功！\"}");
-	}
-	
 	public static void showQQInfo(){
 		File f = new File("public/images/" + "qqbackground.jpg");
 		BufferedImage image = null;
@@ -259,7 +228,6 @@ public class Application extends Controller {
 	}
 	
 	public static void videoShow() {
-		List<ListItem> lists = getImageList();
-		render(lists, "");
+		render();
 	}
 }

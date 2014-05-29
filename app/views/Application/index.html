@@ -51,10 +51,10 @@
 					</div>
 					<div class="es-carousel">
 						<ul>
-							#{list items:lists, as : 'item'}
-							<li><a href="#"><img src="http://js0801.qiniudn.com/${item.key}?imageView2/2/h/200"
-									data-large="http://js0801.qiniudn.com/${item.key}" alt="image01"
-									data-description="From off a hill whose concave womb reworded" /></a></li>
+							#{list items:lists, as : 'image'}
+							<li><a href="#"><img src="http://js0801.qiniudn.com/${image.url}?imageView2/2/h/200"
+									data-large="http://js0801.qiniudn.com/${image.url}" alt="image01"
+									data-description="${image.description}" /></a></li>
 							#{/list}
 						</ul>
 					</div>

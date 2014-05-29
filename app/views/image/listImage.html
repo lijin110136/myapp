@@ -1,40 +1,37 @@
 #{extends 'main.html' /}
 #{set title:'来坐坐吧' /}
 #{set "moreScripts"}
-<script src="@{'/public/javascripts/CryptoJS.js'}" type="text/javascript" charset="utf-8"></script>
-<script src="@{'/public/javascripts/qiniu.js'}" type="text/javascript" charset="utf-8"></script>
 <script src="@{'/public/javascripts/ajaxfileupload.js'}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-	function deleteImage(key){
+	function deleteImage(id, key){
 		if(!confirm("确定要删除吗?")){
 			return false;
 		}
-		$.post("@{Application.deleteImage()}", {"key":key},function(data){
+		$.post("@{ImageController.deleteImage()}", {"key":key, "id":id},function(data){
 			//alert(data.message);
-			window.location.href="@{Application.listImage()}";
+			window.location.href="@{ImageController.listImage()}";
 		});
 	}
 	
 	function upload(){
-		putstr = '{"scope":"js0801","deadline":1451491200}';
-		var upToken = genUpToken(putstr);
 		//$("#token").val(upToken);
 		//document.forms[0].submit();
+		var dataobj = {title: $("#title").val(), description:$("#description").val()}
 		$.ajaxFileUpload
         (
             {
-               url:'http://up.qiniu.com',//用于文件上传的服务器端请求地址
+               url:'@{ImageController.uploadImage()}',//用于文件上传的服务器端请求地址
                secureuri:false,//一般设置为false
                fileElementId:'file',//文件上传空间的id属性  <input type="file" id="file" name="file" />
                dataType: 'json',//返回值类型 一般设置为json
-               data: {"token": upToken},
+               data: dataobj,
                //暂时不使用返回data，因为存在跨域访问的问题，得到的data为空。
-               success: function ()  //服务器成功响应处理函数
+               success: function(data, status)//服务器成功响应处理函数
                {
                     alert("上传成功！");//从服务器返回的json中取出message中的数据,其中message为在struts2中action中定义的成员变量
                     $('#myModal').modal('hide');
-                    window.location.href="@{Application.listImage()}";
-               },
+                    window.location.href="@{ImageController.listImage()}";
+               }
             }
         )
         return false;
@@ -56,17 +53,17 @@
 		</tr>
 	</thead>
 	<tbody>
-	#{list items:all, as : 'item'}
+	#{list items:all, as : 'image'}
 		<tr>
-			<td>${item.key}</td>
-			<td>${item.fsize}</td>
+			<td>${image.fname}</td>
+			<td>${image.fsize}</td>
 			<td>
 				<div style="text-align:center">
-					<img src="http://js0801.qiniudn.com/${item.key}?imageView2/2/w/100"/>
+					<img src="http://js0801.qiniudn.com/${image.url}?imageView2/2/w/100"/>
 				</div>
 			</td>
 			<td>
-				<button class="btn btn-default btn-sm" onclick="deleteImage('${item.key}')">
+				<button class="btn btn-default btn-sm" onclick="deleteImage(${image.id}, '${image.url}')">
 					<span class="glyphicon glyphicon-remove"></span> 删除
 				</button>
 			</td>
@@ -84,6 +81,14 @@
       </div>
       <div class="modal-body">
 		<form action="http://up.qiniu.com" method="POST" enctype="multipart/form-data">
+			<div class="form-group">
+		    	<label for="title">图片标题</label>
+				<input class="form-control" type="text" placeholder="输入图片标题" name="title" id="title"/>
+			</div>
+			<div class="form-group">
+		    	<label for="description">图片描述</label>
+		    	<textarea class="form-control" rows="3" placeholder="输入图片描述" name="description" id="description"></textarea>
+			</div>
 		    <div class="form-group">
 		    	<label for="uploadFile">选择图片</label>
 	  			<input name="token" type="hidden" value="" id="token">
