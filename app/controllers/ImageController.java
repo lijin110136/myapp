@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.ibatis.session.SqlSession;
 import org.json.JSONException;
@@ -94,7 +95,7 @@ public class ImageController extends Controller{
 			if(id == null){
 				String uptoken = putPolicy.token(mac);
 				PutExtra extra = new PutExtra();
-				String key = null;
+				String key = UUID.randomUUID().toString();
 		        PutRet ret = IoApi.putFile(uptoken, key, file.getAbsolutePath(), extra);
 		        if(ret.getStatusCode() > 200){
 		        	return;
@@ -125,7 +126,7 @@ public class ImageController extends Controller{
 			    	//上传新的照片
 			    	String uptoken = putPolicy.token(mac);
 					PutExtra extra = new PutExtra();
-					key = null;
+					key = UUID.randomUUID().toString();
 			        PutRet ret = IoApi.putFile(uptoken, key, file.getAbsolutePath(), extra);
 			        if(ret.getStatusCode() > 200){
 			        	return;
