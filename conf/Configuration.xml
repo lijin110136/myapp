@@ -8,7 +8,7 @@
 			<transactionManager type="JDBC"/>
 			<dataSource type="POOLED">
 				<property name="driver" value="com.mysql.jdbc.Driver"/>
-				<property name="url" value="jdbc:mysql://127.0.0.1:3306/myapp?autoReconnect=true&amp;maxReconnects=10&amp;connectTimeout=10000&amp;socketTimeout=60000&amp;characterEncoding=utf-8"/>
+				<property name="url" value="jdbc:mysql://localhost:3306/myapp?autoReconnect=true&amp;maxReconnects=10&amp;connectTimeout=10000&amp;socketTimeout=60000&amp;characterEncoding=utf-8"/>
 				<property name="username" value="root"/>
 				<property name="password" value="admin"/>
 			</dataSource>
