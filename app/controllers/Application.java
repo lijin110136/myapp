@@ -43,12 +43,14 @@ import com.qiniu.api.rsf.RSFClient;
 import play.data.validation.Required;
 import play.libs.Files;
 import play.mvc.Controller;
+import play.mvc.With;
 import qq.biz.QQInfo;
 import qq.biz.QQUtils;
 import utils.CommonUtils;
 import utils.ConnectionUtils;
 import utils.SqlSessionFactoryUtls;
 
+@With(Secure.class) 
 public class Application extends Controller {
 
     public static void index() {
