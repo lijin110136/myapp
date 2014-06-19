@@ -96,10 +96,12 @@ public class ImageController extends Controller{
 				String uptoken = putPolicy.token(mac);
 				PutExtra extra = new PutExtra();
 				String key = UUID.randomUUID().toString();
+				play.Logger.info("image[" + file.getName() +"] uploading...");
 		        PutRet ret = IoApi.putFile(uptoken, key, file.getAbsolutePath(), extra);
 		        if(ret.getStatusCode() > 200){
 		        	return;
 		        }
+		        play.Logger.info("image[" + file.getName() +"] uploaded");
 		        Image image = new Image();
 				image.setFname(file.getName());
 				image.setUrl(ret.getKey());
@@ -111,6 +113,7 @@ public class ImageController extends Controller{
 				
 		    	sqlSession.insert("models.Image.insertImage", image);
 		    	sqlSession.commit();
+		    	play.Logger.info("image[" + file.getName() +"] 上传成功！");
 				renderHtml("{\"message\":\"上传成功！\"}");
 			}else{
 				//更新操作
