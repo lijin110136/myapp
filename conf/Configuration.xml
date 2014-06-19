@@ -18,5 +18,6 @@
 		<mapper resource="models/Student.xml"/>
 		<mapper resource="models/Image.xml"/>
 		<mapper resource="models/User.xml"/>
+		<mapper resource="models/Album.xml"/>
 	</mappers>
 </configuration>

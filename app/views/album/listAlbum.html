@@ -1,0 +1,115 @@
+#{extends 'main-frame.html' /}
+#{set title:'来坐坐吧' /}
+#{set "moreScripts"}
+<script type="text/javascript">
+	function deleteAlbum(id, key){
+		if(!confirm("确定要删除吗?")){
+			return false;
+		}
+		$.post("@{AlbumController.doDelete()}", {"key":key, "id":id},function(data){
+			//alert(data.message);
+			window.location.href="@{AlbumController.listAlbum()}";
+		});
+	}
+	
+	function doSave(){
+		var album = new Object();
+		album.id = $("#id").val();
+		album.albumName = $("#albumName").val();
+		album.description = $("#description").val();
+		
+		$.post("@{AlbumController.doSave()}", {"album":album}, function(){
+			window.location.href="@{AlbumController.listAlbum()}";
+		});
+        return false;
+	}
+	
+	function editAlbum(id){
+		$.get("@{AlbumController.selectAlbum()}", {"id":id}, function(album){
+			setValue("id",  album.id);
+			setValue("albumName",  album.albumName);
+			$("#description").val(album.description);
+			$('#myModal').modal('show');
+		});
+	}
+	
+	function newAlbum(){
+		$("#myform").get(0).reset();
+		$('#myModal').modal('show');
+	}
+</script>
+	
+#{/set}
+<div class="container">
+<button class="btn btn-primary" onclick="newAlbum()">
+	 <span class="glyphicon glyphicon-plus"></span>新增相册
+</button>
+<table class="table table-striped table-bordered table-hover table-condensed"  style="width:100%;margin-top:10px">
+	<thead>
+		<tr>
+			<th>相册名称</th>
+			<th>描述</th>
+			<th>封面图片</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+	#{list items:list, as : 'album'}
+		<tr>
+			<td>${album.albumName}</td>
+			<td>${album.description}</td>
+			<td>
+				<div style="text-align:center">
+					<img src="http://js0801.qiniudn.com/${album.coverImage}?imageView2/2/w/100"/>
+				</div>
+			</td>
+			<td>
+				<button class="btn btn-default btn-sm" onclick="editAlbum(${album.id})">
+					<span class="glyphicon glyphicon-edit"></span> 编辑
+				</button>
+				<button class="btn btn-default btn-sm" onclick="deleteAlbum(${album.id})">
+					<span class="glyphicon glyphicon-remove"></span> 删除
+				</button>
+			</td>
+		</tr>
+	#{/list}
+	</tbody>
+</table>
+<!-- 编辑相册对话框 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">编辑相册</h4>
+      </div>
+      <div class="modal-body">
+		<form action="http://up.qiniu.com" method="POST" enctype="multipart/form-data" id="myform">
+			<input type="hidden" name="id" id="id"/>
+			<div class="form-group">
+		    	<label for="albumName">相册名称</label>
+				<input class="form-control" type="text" placeholder="输入相册名称" name="albumName" id="albumName"/>
+			</div>
+			<div class="form-group">
+		    	<label for="description">描述</label>
+		    	<textarea class="form-control" rows="3" placeholder="输入相册描述" name="description" id="description"></textarea>
+			</div>
+		    <div class="form-group">
+		    	<label for="uploadFile">选择封面图片</label>
+	  			<input name="token" type="hidden" value="" id="token">
+				<input class="form-control" type="file" placeholder="选择上传文件" name="file" id="file"/>
+			</div>
+		</form>
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-primary" onclick="doSave()">
+      		<span class="glyphicon glyphicon-save"></span>确定
+      	</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+			<span class="glyphicon glyphicon-remove"></span>取消
+		</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+</div>
