@@ -13,6 +13,7 @@ public class Image {
 	private Date modifiedTime;
 	private String createdUserName;
 	private String modifiedUserName;
+	private Long albumId;
 	
 	public Long getId() {
 		return id;
@@ -73,6 +74,12 @@ public class Image {
 	}
 	public void setModifiedUserName(String modifiedUserName) {
 		this.modifiedUserName = modifiedUserName;
+	}
+	public Long getAlbumId() {
+		return albumId;
+	}
+	public void setAlbumId(Long albumId) {
+		this.albumId = albumId;
 	}
 	
 }

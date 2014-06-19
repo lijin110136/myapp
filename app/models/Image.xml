@@ -9,13 +9,16 @@
 			<if test=" id != null">
 				id = #{id}
 			</if>
+			<if test=" albumId != null">
+				albumId = #{albumId}
+			</if>
 		</where>
 		order by modifiedTime desc;
 	</select>
 	<insert id="insertImage" parameterType="models.Image">
-		insert into image(id,title, fname, url,description,fsize,createdTime, modifiedTime, createdUserName, modifiedUserName)
+		insert into image(id,title, fname, url,description,fsize,createdTime, modifiedTime, createdUserName, modifiedUserName, albumId)
 		values 
-			(#{id},#{title}, #{fname}, #{url}, #{description}, #{fsize},#{createdTime}, #{modifiedTime}, #{createdUserName}, #{modifiedUserName})
+			(#{id},#{title}, #{fname}, #{url}, #{description}, #{fsize},#{createdTime}, #{modifiedTime}, #{createdUserName}, #{modifiedUserName}, #{albumId})
 	</insert>
 	<delete id="deleteImage" parameterType="long">
 		delete from image where id = #{id}
@@ -29,7 +32,8 @@
 			<if test="fsize != null">fsize=#{fsize},</if>
 			<if test="description != null">description=#{description},</if>
 			<if test="modifiedTime != null">modifiedTime=#{modifiedTime},</if>
-			<if test="modifiedUserName != null">modifiedUserName=#{modifiedUserName}</if>
+			<if test="modifiedUserName != null">modifiedUserName=#{modifiedUserName},</if>
+			<if test="albumId != null">albumId=#{albumId}</if>
 		</set>
 		where id = #{id}
 	</update>

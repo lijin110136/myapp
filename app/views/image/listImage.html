@@ -54,6 +54,20 @@
 	
 #{/set}
 <div class="container">
+<div class="search-container form-inline well well-sm text-center">
+    <span class="search-item">
+        <label class="control-label">
+            <span>选择相册</span>
+            <select class="form-control" name="album">
+            	<option value="1">未引用</option>
+            	<option value="0">已引用</option>
+            </select>
+        </label>
+    </span>
+    <span class="search-op">
+        <span class="btn btn-primary btn-search ml10">搜索</span>
+    </span>
+</div>
 <button class="btn btn-primary" onclick="newImage()">
 	 <span class="glyphicon glyphicon-plus"></span>上传图片
 </button>
