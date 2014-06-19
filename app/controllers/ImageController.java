@@ -13,6 +13,7 @@ import java.util.UUID;
 import org.apache.ibatis.session.SqlSession;
 import org.json.JSONException;
 
+import models.Album;
 import models.Image;
 import models.Student;
 
@@ -36,9 +37,18 @@ public class ImageController extends Controller{
 	/**
 	 * 查看七牛云服务器上的图片列表
 	 */
-	public static void listImage(){
+	public static void listImage(Long albumId){
 		List<Image> all = getImageList();
-		render("image/listImage.html", all);
+		List<Album> albumList = new ArrayList<Album>();
+		SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
+    	try {
+    		Map<String, Object> map = new HashMap<String, Object>();
+			map.put("albumId", albumId);
+    		albumList = sqlSession.selectList("models.Album.selectAlbum", map);
+		}finally{
+			sqlSession.close();
+		}
+		render("image/listImage.html", all, albumList);
 	}
 	
 	public static void deleteImage(Long id, String key){

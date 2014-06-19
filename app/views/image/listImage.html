@@ -50,6 +50,11 @@
 		$("#myform").get(0).reset();
 		$('#myModal').modal('show');
 	}
+	
+	function search(){
+		var albumId = $("#album").val();
+		window.location.href="@{ImageController.listImage()}?albumId=" + albumId;
+	}
 </script>
 	
 #{/set}
@@ -58,14 +63,15 @@
     <span class="search-item">
         <label class="control-label">
             <span>选择相册</span>
-            <select class="form-control" name="album">
-            	<option value="1">未引用</option>
-            	<option value="0">已引用</option>
+            <select class="form-control" name="album" id="album">
+            #{list items:albumList, as : 'album'}
+            	<option value="${album.id}">${album.albumName}</option>
+            #{/list}
             </select>
         </label>
     </span>
     <span class="search-op">
-        <span class="btn btn-primary btn-search ml10">搜索</span>
+        <span class="btn btn-primary btn-search ml10" onclick="search()">搜索</span>
     </span>
 </div>
 <button class="btn btn-primary" onclick="newImage()">

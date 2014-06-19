@@ -10,7 +10,7 @@
 				id = #{id}
 			</if>
 			<if test=" albumId != null">
-				albumId = #{albumId}
+				and albumId = #{albumId}
 			</if>
 		</where>
 		order by modifiedTime desc;
