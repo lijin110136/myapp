@@ -86,6 +86,7 @@ public class ImageController extends Controller{
 	}
 	
 	public static void uploadImage(File file, Long id, String description, String title){
+		play.Logger.info("image tmp path: " + file.getAbsolutePath());
 		//上传图片到七牛空间
 		Mac mac = CommonUtils.getMac();
 		PutPolicy putPolicy = new PutPolicy(CommonUtils.BUCKET);
@@ -101,7 +102,6 @@ public class ImageController extends Controller{
 		        if(ret.getStatusCode() > 200){
 		        	return;
 		        }
-		        play.Logger.info("image tmp path: " + file.getAbsolutePath());
 		        play.Logger.info("image[" + file.getName() +"] uploaded");
 		        Image image = new Image();
 				image.setFname(file.getName());
