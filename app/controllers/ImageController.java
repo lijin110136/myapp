@@ -101,6 +101,7 @@ public class ImageController extends Controller{
 		        if(ret.getStatusCode() > 200){
 		        	return;
 		        }
+		        play.Logger.info("image tmp path: " + file.getAbsolutePath());
 		        play.Logger.info("image[" + file.getName() +"] uploaded");
 		        Image image = new Image();
 				image.setFname(file.getName());
