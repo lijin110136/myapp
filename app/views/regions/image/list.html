@@ -1,0 +1,19 @@
+#{list items:all, as : 'image'}
+<tr>
+	<td>${image.fname}</td>
+	<td>${image.fsize}</td>
+	<td>
+		<div style="text-align:center">
+			<img src="http://js0801.qiniudn.com/${image.url}?imageView2/2/w/100"/>
+		</div>
+	</td>
+	<td>
+		<button class="btn btn-default btn-sm" onclick="editImage(${image.id})">
+			<span class="glyphicon glyphicon-edit"></span> 编辑
+		</button>
+		<button class="btn btn-default btn-sm" onclick="deleteImage(${image.id}, '${image.url}')">
+			<span class="glyphicon glyphicon-remove"></span> 删除
+		</button>
+	</td>
+</tr>
+#{/list}

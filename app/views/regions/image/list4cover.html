@@ -1,0 +1,8 @@
+<div id="main" role="main" >
+	<input type="hidden" name="albumId" id="albumId" value=""/>
+	<ul id="listImage">
+		#{list items:list, as : 'image'}
+	    <li ondblclick="saveCoverImage('${image.url}')"><img src="http://js0801.qiniudn.com/${image.url}?imageView2/2/w/150"/><p>${image.title}</p></li> 
+		#{/list}
+	</ul>
+</div>

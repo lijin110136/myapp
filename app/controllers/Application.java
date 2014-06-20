@@ -54,7 +54,7 @@ import utils.SqlSessionFactoryUtls;
 public class Application extends Controller {
 
     public static void index() {
-    	List<Image> lists = ImageController.getImageList();
+    	List<Image> lists = ImageController.getImageList(null);
     	
         render(lists, "");
     }

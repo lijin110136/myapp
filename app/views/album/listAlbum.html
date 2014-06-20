@@ -1,6 +1,7 @@
 #{extends 'main-frame.html' /}
 #{set title:'来坐坐吧' /}
 #{set "moreScripts"}
+<script src="@{'/public/javascripts/jquery.wookmark.js'}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 	function deleteAlbum(id, key){
 		if(!confirm("确定要删除吗?")){
@@ -37,9 +38,92 @@
 		$("#myform").get(0).reset();
 		$('#myModal').modal('show');
 	}
+	
+	function setCoverImage(id){
+		var query = new Object();
+		query.albumId = id;
+		$.get("@{ImageController.getImageList4Cover()}", query, function(html){
+            $("#coverDiv").html(html);
+            $('#coverModal').modal('show');
+            //为了解决瀑布流插件检测$("#main")为hidden时，设置不正确的问题，延时1s.
+            setTimeout(function(){
+            	$("#listImage li").wookmark({
+                	autoResize: false,
+                    container : $("#main"),
+                    itemWidth: 154,
+                    offset : 10
+                });
+    			$("#albumId").val(id);
+            }, 500);
+        });
+	}
+	
+	function manageImage(id){
+		var query = new Object();
+		query.albumId = id;
+		$.get("@{ImageController.getList()}", query, function(html){
+            listTable.find("tbody").html(html);
+        });
+	}
+	
+	function saveCoverImage(url){
+		var album = new Object();
+		album.id = $("#albumId").val();
+		album.coverImage = url;
+		$.post("@{AlbumController.doSave()}", {"album":album}, function(){
+			window.location.href="@{AlbumController.listAlbum()}";
+		});
+	}
+	
 </script>
 	
 #{/set}
+
+#{set "moreStyles"}
+<style>
+	#listImage{
+		list-style-type: none;
+	  	position: relative; /** Needed to ensure items are laid out relative to this container **/
+	  	margin: 0;
+	  	padding: 0;	
+	} 
+	#listImage li{
+		cursor:pointer;
+		display:none;
+		padding: 4px;
+		background-color: #ffffff;
+		border: 1px solid #dedede;
+		border-radius: 2px;
+		-moz-border-radius: 2px;
+		-webkit-border-radius: 2px;
+	} 
+	
+	#listImage li.inactive {
+		visibility: hidden;
+		opacity: 0;
+	}
+		
+	#listImage li img {
+		display: block;
+	}
+	
+	#listImage li p {
+	  color: #666;
+	  font-size: 13px;
+	  line-height: 20px;
+	  text-align: center;
+	  font-weight: 200;
+	  margin: 7px 0 2px 7px;
+	}
+	
+	#main{
+		margin: 30px 0;
+  		position: relative;
+	}
+
+</style>
+#{/set}
+
 <div class="container">
 <button class="btn btn-primary" onclick="newAlbum()">
 	 <span class="glyphicon glyphicon-plus"></span>新增相册
@@ -66,6 +150,12 @@
 			<td>
 				<button class="btn btn-default btn-sm" onclick="editAlbum(${album.id})">
 					<span class="glyphicon glyphicon-edit"></span> 编辑
+				</button>
+				<button class="btn btn-default btn-sm" onclick="setCoverImage(${album.id})">
+					<span class="glyphicon glyphicon-edit"></span>封面照片
+				</button>
+				<button class="btn btn-default btn-sm" onclick="manageImage(${album.id})">
+					<span class="glyphicon glyphicon-edit"></span>照片管理
 				</button>
 				<button class="btn btn-default btn-sm" onclick="deleteAlbum(${album.id})">
 					<span class="glyphicon glyphicon-remove"></span> 删除
@@ -94,11 +184,6 @@
 		    	<label for="description">描述</label>
 		    	<textarea class="form-control" rows="3" placeholder="输入相册描述" name="description" id="description"></textarea>
 			</div>
-		    <div class="form-group">
-		    	<label for="uploadFile">选择封面图片</label>
-	  			<input name="token" type="hidden" value="" id="token">
-				<input class="form-control" type="file" placeholder="选择上传文件" name="file" id="file"/>
-			</div>
 		</form>
       </div>
       <div class="modal-footer">
@@ -112,4 +197,27 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<!-- 设置封面图片 -->
+<div class="modal fade" id="coverModal" tabindex="-1" role="dialog" aria-labelledby="coverModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="coverModalLabel">选择封面图片</h4>
+      </div>
+      <div class="modal-body" id="coverDiv">
+			
+      </div>
+      <div class="modal-footer">
+      	<button type="button" class="btn btn-primary" onclick="doSave()">
+      		<span class="glyphicon glyphicon-save"></span>确定
+      	</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">
+			<span class="glyphicon glyphicon-remove"></span>取消
+		</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 </div>

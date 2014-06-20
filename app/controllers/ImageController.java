@@ -37,18 +37,20 @@ public class ImageController extends Controller{
 	/**
 	 * 查看七牛云服务器上的图片列表
 	 */
-	public static void listImage(Long albumId){
-		List<Image> all = getImageList();
+	public static void listImage(){
 		List<Album> albumList = new ArrayList<Album>();
 		SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
     	try {
-    		Map<String, Object> map = new HashMap<String, Object>();
-			map.put("albumId", albumId);
-    		albumList = sqlSession.selectList("models.Album.selectAlbum", map);
+    		albumList = sqlSession.selectList("models.Album.selectAlbum");
 		}finally{
 			sqlSession.close();
 		}
-		render("image/listImage.html", all, albumList);
+		render("image/listImage.html", albumList);
+	}
+	
+	public static void getList(Long albumId){
+		List<Image> all = getImageList(albumId);
+		renderTemplate("/regions/image/list.html", all, albumId);
 	}
 	
 	public static void deleteImage(Long id, String key){
@@ -84,11 +86,13 @@ public class ImageController extends Controller{
         return all;
 	}
 	
-	protected static List<Image> getImageList(){
+	protected static List<Image> getImageList(Long albumId){
 		List<Image> list = new ArrayList<Image>();
 		SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
     	try {
-    		list = sqlSession.selectList("models.Image.selectImage");
+    		Map<String, Object> map = new HashMap<String, Object>();
+			map.put("albumId", albumId);
+    		list = sqlSession.selectList("models.Image.selectImage", map);
 		}finally{
 			sqlSession.close();
 		}
@@ -96,7 +100,6 @@ public class ImageController extends Controller{
 	}
 	
 	public static void uploadImage(File file, Long id, String description, String title){
-		play.Logger.info("image tmp path: " + file.getAbsolutePath());
 		//上传图片到七牛空间
 		Mac mac = CommonUtils.getMac();
 		PutPolicy putPolicy = new PutPolicy(CommonUtils.BUCKET);
@@ -180,5 +183,10 @@ public class ImageController extends Controller{
 			sqlSession.close();
 		}
     	renderJSON(image);
+	}
+	
+	public static void getImageList4Cover(Long albumId){
+		List<Image> list = getImageList(albumId);
+		renderTemplate("/regions/image/list4cover.html", list);
 	}
 }
