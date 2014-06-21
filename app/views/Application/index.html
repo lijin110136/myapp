@@ -43,7 +43,7 @@
 		        <label class="control-label">
 		            <span>选择相册</span>
 		            <select class="form-control" name="album" id="album" onchange="changeImage()">
-		            	<option value="">全部</option>
+
 		            #{list items:albumList, as : 'album'}
 		            	<option value="${album.id}">${album.albumName}</option>
 		            #{/list}
