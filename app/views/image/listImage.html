@@ -56,6 +56,16 @@
 		    	<label for="description">图片描述</label>
 		    	<textarea class="form-control" rows="3" placeholder="输入图片描述" name="description" id="description"></textarea>
 			</div>
+			<div class="form-group">
+            	<label for="albumSelect">选择相册</label>
+            	<select class="form-control" name="albumSelect" id="albumSelect">
+            	#{list items:albumList, as : 'album'}
+            		<option value="${album.id}">${album.albumName}</option>
+            	#{/list}
+            		<option value="">未分类</option>
+            	</select>
+      		</div>
+			
 		    <div class="form-group">
 		    	<label for="uploadFile">选择图片</label>
 	  			<input name="token" type="hidden" value="" id="token">
@@ -89,7 +99,7 @@
 	function upload(){
 		//$("#token").val(upToken);
 		//document.forms[0].submit();
-		var dataobj = {id: $("#id").val(), title: $("#title").val(), description:$("#description").val()}
+		var dataobj = {id: $("#id").val(), title: $("#title").val(), description:$("#description").val(), albumId:$("#albumSelect").val()}
 		$.ajaxFileUpload
         (
             {
@@ -115,6 +125,7 @@
 		$.get("@{ImageController.selectImage()}", {"id":id}, function(image){
 			setValue("id",  image.id);
 			setValue("title",  image.title);
+			$("#albumSelect").val(image.albumId);
 			$("#description").val(image.description);
 			$('#myModal').modal('show');
 		});

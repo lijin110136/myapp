@@ -33,7 +33,7 @@
 			<if test="description != null">description=#{description},</if>
 			<if test="modifiedTime != null">modifiedTime=#{modifiedTime},</if>
 			<if test="modifiedUserName != null">modifiedUserName=#{modifiedUserName},</if>
-			<if test="albumId != null">albumId=#{albumId}</if>
+			albumId=#{albumId}
 		</set>
 		where id = #{id}
 	</update>

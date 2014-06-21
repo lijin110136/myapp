@@ -1,0 +1,19 @@
+<div class="rg-thumbs">
+	<!-- Elastislide Carousel Thumbnail Viewer -->
+	<div class="es-carousel-wrapper">
+		<div class="es-nav">
+			<span class="es-nav-prev">Previous</span> <span
+				class="es-nav-next">Next</span>
+		</div>
+		<div class="es-carousel">
+			<ul>
+				#{list items:lists, as : 'image'}
+				<li><a href="#"><img src="http://js0801.qiniudn.com/${image.url}?imageView2/2/h/200"
+						data-large="http://js0801.qiniudn.com/${image.url}" alt="image01"
+						data-description="${image.description}" /></a></li>
+				#{/list}
+			</ul>
+		</div>
+	</div>
+	<!-- End Elastislide Carousel Thumbnail Viewer -->
+</div>

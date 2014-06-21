@@ -38,34 +38,48 @@
 #{/set}
 <div class="container">
 	<div class="content">
-		<h1>
-			美好時光
-		</h1>
-		<div id="rg-gallery" class="rg-gallery">
-			<div class="rg-thumbs">
-				<!-- Elastislide Carousel Thumbnail Viewer -->
-				<div class="es-carousel-wrapper">
-					<div class="es-nav">
-						<span class="es-nav-prev">Previous</span> <span
-							class="es-nav-next">Next</span>
-					</div>
-					<div class="es-carousel">
-						<ul>
-							#{list items:lists, as : 'image'}
-							<li><a href="#"><img src="http://js0801.qiniudn.com/${image.url}?imageView2/2/h/200"
-									data-large="http://js0801.qiniudn.com/${image.url}" alt="image01"
-									data-description="${image.description}" /></a></li>
-							#{/list}
-						</ul>
-					</div>
-				</div>
-				<!-- End Elastislide Carousel Thumbnail Viewer -->
-			</div>
-			<!-- rg-thumbs -->
+		<div class="search-container form-inline well well-sm text-center">
+		    <span class="search-item">
+		        <label class="control-label">
+		            <span>选择相册</span>
+		            <select class="form-control" name="album" id="album" onchange="changeImage()">
+		            	<option value="">全部</option>
+		            #{list items:albumList, as : 'album'}
+		            	<option value="${album.id}">${album.albumName}</option>
+		            #{/list}
+		            </select>
+		        </label>
+		    </span>
 		</div>
-		<!-- rg-gallery -->
+		<div id="rg-gallery" class="rg-gallery">
+			#{include 'regions/application/photos.html'/}
+		</div>
 		<p>
 	</div>
 	<!-- content -->
 </div>
 <!-- container -->
+<script type="text/javascript">
+	$(function(){
+		renerList();
+	});
+	
+	function changeImage(){
+		renerList();
+	}
+	
+	function renerList(){
+		var query = new Object();
+		query.albumId = $("#album").val();
+		$.get("@{Application.getList()}", query, function(html){
+            $("#rg-gallery").html(html);
+            galleryInit();
+
+        });
+	}
+	
+	function search(){
+		renerList();
+	}
+	
+</script>

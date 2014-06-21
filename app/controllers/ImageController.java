@@ -99,7 +99,7 @@ public class ImageController extends Controller{
         return list;
 	}
 	
-	public static void uploadImage(File file, Long id, String description, String title){
+	public static void uploadImage(File file, Long id, String description, String title, Long albumId){
 		//上传图片到七牛空间
 		Mac mac = CommonUtils.getMac();
 		PutPolicy putPolicy = new PutPolicy(CommonUtils.BUCKET);
@@ -124,6 +124,7 @@ public class ImageController extends Controller{
 				image.setCreatedTime(new Date());
 				image.setModifiedTime(new Date());
 				image.setFsize((double)(file.length()/1024));
+				image.setAlbumId(albumId);
 				
 		    	sqlSession.insert("models.Image.insertImage", image);
 		    	sqlSession.commit();
@@ -156,6 +157,7 @@ public class ImageController extends Controller{
 				//2.更新数据
 				image.setDescription(description);
 				image.setTitle(title);
+				image.setAlbumId(albumId);
 				image.setModifiedTime(new Date());
 				sqlSession.update("models.Image.updateImage", image);
 	    		sqlSession.commit();

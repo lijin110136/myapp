@@ -58,14 +58,6 @@
         });
 	}
 	
-	function manageImage(id){
-		var query = new Object();
-		query.albumId = id;
-		$.get("@{ImageController.getList()}", query, function(html){
-            listTable.find("tbody").html(html);
-        });
-	}
-	
 	function saveCoverImage(url){
 		var album = new Object();
 		album.id = $("#albumId").val();
@@ -153,9 +145,6 @@
 				</button>
 				<button class="btn btn-default btn-sm" onclick="setCoverImage(${album.id})">
 					<span class="glyphicon glyphicon-edit"></span>封面照片
-				</button>
-				<button class="btn btn-default btn-sm" onclick="manageImage(${album.id})">
-					<span class="glyphicon glyphicon-edit"></span>照片管理
 				</button>
 				<button class="btn btn-default btn-sm" onclick="deleteAlbum(${album.id})">
 					<span class="glyphicon glyphicon-remove"></span> 删除

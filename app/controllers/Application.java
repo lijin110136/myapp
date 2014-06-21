@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import models.Album;
 import models.Image;
 import models.Student;
 
@@ -54,9 +55,19 @@ import utils.SqlSessionFactoryUtls;
 public class Application extends Controller {
 
     public static void index() {
-    	List<Image> lists = ImageController.getImageList(null);
-    	
-        render(lists, "");
+    	List<Album> albumList = new ArrayList<Album>();
+		SqlSession sqlSession = SqlSessionFactoryUtls.getSessionFactory().openSession();
+    	try {
+    		albumList = sqlSession.selectList("models.Album.selectAlbum");
+		}finally{
+			sqlSession.close();
+		}
+        render(albumList);
+    }
+    
+    public static void getList(Long albumId){
+    	List<Image> lists = ImageController.getImageList(albumId);
+    	renderTemplate("/regions/application/photos.html", lists);
     }
    
     public static void sayHello(@Required String myName){
